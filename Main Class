@@ -1,0 +1,34 @@
+import java.io.IOException;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        AIRepository repo = new AIRepository();
+
+        // Sample AI Model
+        AIModel model1 = new AIModel("Model1", "This is a sample AI model", new byte[]{0x01, 0x02, 0x03});
+
+        // Add model to repository
+        repo.addModel("model1", model1);
+
+        // Save repository to file
+        try {
+            repo.saveRepository("airepository.dat");
+        } catch (IOException e) {
+            System.err.println("Error saving repository: " + e.getMessage());
+        }
+
+        // Load repository from file
+        try {
+            repo.loadRepository("airepository.dat");
+            AIModel loadedModel = repo.getModel("model1");
+            if (loadedModel != null) {
+                System.out.println("Model Name: " + loadedModel.getName());
+                System.out.println("Model Description: " + loadedModel.getDescription());
+                System.out.println("Model Data: " + Arrays.toString(loadedModel.getModelData()));
+            } else {
+                System.out.println("Model not found");
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading repository: " + e.getMessage());
+        

@@ -1,0 +1,31 @@
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
+public class AIRepository {
+    private Map<String, AIModel> repository;
+
+    public AIRepository() {
+        repository = new HashMap<>();
+    }
+
+    public void addModel(String key, AIModel model) {
+        repository.put(key, model);
+    }
+
+    public AIModel getModel(String key) {
+        return repository.get(key);
+    }
+
+    public void saveRepository(String filePath) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            oos.writeObject(repository);
+        }
+    }
+
+    public void loadRepository(String filePath) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            repository = (HashMap<String, AIModel>) ois.readObject();
+        }
+    }
+}
